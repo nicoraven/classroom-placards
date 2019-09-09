@@ -1,16 +1,27 @@
-// Setup
+// SETUP
 const express = require('express');
 const app = express();
-
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const mongoose = require('mongoose');
 
-const port = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
+const DB_PATH = process.env.DB_PATH || "mongodb://localhost/cp";
 
-// Routes
+// MIDDLEWARE
+app.use(express.json());
+
+// CONNECT TO DB
+mongoose.connect(DB_PATH, {useNewUrlParser: true}, () => console.log("connected to DB!"));
+
+// IMPORT ROUTES
+const apiRoutes = require('./routes/api');
+app.use('/api', apiRoutes);
+
+// ROUTES
 app.get('/api/getUsername', (req, res) => res.send({ username: "user A" }));
 
-// Listen to socket.io
+// LISTEN TO SOCKET
 io.on('connection', socket => {
     console.log('a user connected');
 
@@ -24,5 +35,5 @@ io.on('connection', socket => {
     });
 });
 
-// Listen to port
-server.listen(port, () => console.log(`~~~ Listening on port ${port}! ~~~`));
+// LISTEN TO SERVER
+server.listen(PORT, () => console.log(`~~~ Listening on port ${PORT}! ~~~`));
