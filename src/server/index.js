@@ -19,12 +19,21 @@ const apiRoutes = require('./routes/api');
 app.use('/api', apiRoutes);
 
 // LISTEN TO SOCKET
+// const socketController = require('./controllers/socketController'); 
+// io.on('connection', socketController);
+const Class = require('./models/Class');
 io.on('connection', socket => {
     console.log('a user connected');
 
     socket.on('fetch news', () => {
-        console.log('received news request');
+        console.log('receiving news request');
         socket.emit('receive news', {content: "Good to go!"});
+    });
+
+    socket.on('getAll', () => {
+        Class.find()
+        .then(data => socket.emit('receive all', data))
+        .catch(err => socket.emit('receive all', err));
     });
 
     socket.on('disconnect', () => {
