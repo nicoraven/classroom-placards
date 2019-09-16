@@ -15,18 +15,15 @@ app.use(express.json());
 mongoose.connect(DB_PATH, {useNewUrlParser: true}, () => console.log("connected to DB!"));
 
 // IMPORT ROUTES
-const apiRoutes = require('./routes/api');
+const apiRoutes = require('./routes/api'); 
 app.use('/api', apiRoutes);
-
-// ROUTES
-app.get('/api/getUsername', (req, res) => res.send({ username: "user A" }));
 
 // LISTEN TO SOCKET
 io.on('connection', socket => {
     console.log('a user connected');
 
     socket.on('fetch news', () => {
-        console.log('send news now');
+        console.log('received news request');
         socket.emit('receive news', {content: "Good to go!"});
     });
 
