@@ -7,8 +7,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = { 
-      username: null,
-      news: 'no news yet'
+      classes: [],
+      fullscreen: false
     };
   }
 
@@ -17,20 +17,9 @@ class App extends Component {
   }
 
   listenHandlers = () => {
-    socket.on("receive news", msg => {
-      this.setState({news: msg.content}, ()=>{
-        console.log("message received!")
-      });
-    });
-
     socket.on("receive all", msg => {
       console.log(msg)
     });
-  }
-
-  getNews = () => {
-    console.log("Getting news!");
-    socket.emit("fetch news");
   }
 
   getAll = () => {
@@ -38,17 +27,29 @@ class App extends Component {
     socket.emit("getAll");
   }
 
+  goFullscreen = (e) => {
+    console.log("clicked", e.target.parentNode.id)
+    let elem = e.target.parentNode;
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().catch(err => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
   render() {
-    let { username } = this.state;
-    // console.log(window.location)
+
     return (
       <div>
-        {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        <p className="App-intro">
-          This is the latest news: {this.state.news}
-        </p>
-        <button onClick={this.getNews} >Get News</button>
         <button onClick={this.getAll} >Get All Classes</button>
+        <div className="class-box" id="box">
+          <button onClick={(e)=>{this.goFullscreen(e)}} >Enter Fullscreen display mode</button>
+          <h3>Classroom 1</h3>
+          <h1>Software Engineering Immersive</h1>
+          <p>Instructor: Akira Wong</p>
+        </div>
       </div>
     );
   }
