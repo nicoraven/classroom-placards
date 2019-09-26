@@ -8,6 +8,8 @@ class App extends Component {
     super();
     this.state = { 
       classes: [],
+      form: {},
+      currentClass: {},
       fullscreen: false
     };
   }
@@ -18,7 +20,8 @@ class App extends Component {
 
   listenHandlers = () => {
     socket.on("receive all", msg => {
-      console.log(msg)
+      let classes = msg.data;
+      console.log(classes)
     });
   }
 
@@ -27,13 +30,17 @@ class App extends Component {
     socket.emit("getAll");
   }
 
+  createClass = () => {
+
+  }
+
   goFullscreen = (e) => {
-    console.log("clicked", e.target.parentNode.id)
+    // console.log("clicked", e.target.parentNode.id)
     let elem = e.target.parentNode;
     if (!document.fullscreenElement) {
       elem.requestFullscreen().catch(err => {
         alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-      });
+      }); 
     } else {
       document.exitFullscreen();
     }
