@@ -17,6 +17,12 @@ class Home extends Component {
 }
 
 class App extends Component {
+    constructor() {
+        this.state = {
+            classes: []
+        }
+    }
+
     render() {
         return (
             <Router>
@@ -32,5 +38,7 @@ class App extends Component {
         );
     }
 }
+
+
 
 export default App;
