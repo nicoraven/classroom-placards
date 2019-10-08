@@ -37,7 +37,7 @@ module.exports = {
     publicPath: '/',
     historyApiFallback: true,
     proxy: {
-      'api' : 'http://localhost:8080',
+      '/api' : 'http://localhost:8080',
       '/socket': {
         target: 'http://localhost:8080',
         ws: true
