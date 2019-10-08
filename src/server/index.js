@@ -20,7 +20,9 @@ app.use('/api', apiRoutes);
 
 // LISTEN TO SOCKET
 const socketController = require('./routes/socket')
-io.on('connection', socketController);
+// io.on('connection', socketController);
+const nsp = io.of('/socket');
+nsp.on('connection', socketController)
 
 // LISTEN TO SERVER
 server.listen(PORT, () => console.log(`~~~ Listening on port ${PORT}! ~~~`));
