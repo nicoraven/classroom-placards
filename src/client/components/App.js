@@ -20,13 +20,19 @@ class App extends Component {
     componentDidMount = () => {
         console.log("mounted");
         this.socketListeners();
+        socket.emit("getClassrooms");
     }
 
     socketListeners = () => {
         socket.on("receiveNews", (response) => {
-            let updatedNews = response.content;
+            let updatedNews = response.data;
             this.setState({news: updatedNews});
-        })
+        });
+
+        socket.on("receiveAll", (response) => {
+            let updatedClasses = response.data;
+            this.setState({news: updatedClasses});
+        });
     }
 
     render() {

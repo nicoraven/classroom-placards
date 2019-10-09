@@ -7,7 +7,7 @@ const socket = io(url);
 class Home extends Component {
   getNewsHandler = () => {
     console.log("get news");
-    socket.emit("fetch news");
+    socket.emit("fetchNews");
   }
 
   render() {
