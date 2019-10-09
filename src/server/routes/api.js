@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    db.getOne(req.params.id , (err, data) => {
+    db.getOneClass(req.params.id , (err, data) => {
         res.send({data: data, err: err})
     })
 });

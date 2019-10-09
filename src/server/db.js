@@ -1,6 +1,43 @@
 const Class = require('./models/Class');
+const Classroom = require('./models/Classroom');
 
 module.exports = {
+
+    getClassrooms: (callback) => {
+        Classroom.find()
+        .then(data => callback(null, data))
+        .catch(err => callback(err, null));
+    },
+
+    getOneClassroom: (callback) => {
+        Classroom.find({_id: id})
+        .then(data => callback(null, data))
+        .catch(err => callback(err, null));
+    },
+
+    createClassroom: (form, callback) => {
+        let classroom = new Classroom({
+            name: form.name
+        });
+    
+        classroom.save()
+        .then(data => callback(null, data))
+        .catch(err => callback(err, null));
+    },
+
+    updateClassroom: (form, callback) => {
+        Classroom.updateOne({_id: form.id}, { $set: {
+            name: form.name,
+        }})
+        .then(data => callback(null, data))
+        .catch(err => callback(err, null));
+    },
+
+    deleteClassroom: (id, callback) => {
+        Classroom.deleteOne({_id: id})
+        .then(data => callback(null, data))
+        .catch(err => callback(err, null));
+    },
 
     getClasses: (callback) => {
         Class.find()
@@ -8,7 +45,7 @@ module.exports = {
         .catch(err => callback(err, null));
     },
 
-    getOne: (id, callback) => {
+    getOneClass: (id, callback) => {
         Class.find({_id: id})
         .then(data => callback(null, data))
         .catch(err => callback(err, null));
