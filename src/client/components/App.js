@@ -12,21 +12,31 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            classes: []
+            classes: [],
+            news: "Loading latest news"
         }
     }
 
     componentDidMount = () => {
-        console.log("mounted")
+        console.log("mounted");
+        this.socketListeners();
+    }
+
+    socketListeners = () => {
+        socket.on("receiveNews", (response) => {
+            let updatedNews = response.content;
+            this.setState({news: updatedNews});
+        })
     }
 
     render() {
+        console.log("state", this.state);
         return (
             <Router>
                 <div id="app-wrapper">
                     <h1>Classroom Placards</h1>
                     <Switch>
-                        <Route path="/" exact component={Home} />
+                        <Route path="/" exact render={() => <Home state={this.state} />} />
                         <Route path="/new" component={New} />
                         <Route path="/placard" component={Placard} />
                     </Switch>

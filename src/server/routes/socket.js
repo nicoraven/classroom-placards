@@ -6,7 +6,8 @@ module.exports = (socket) => {
 
     socket.on('fetch news', () => {
         console.log('send news now');
-        socket.emit('receive news', {content: "Good to go!"});
+        nsp.emit('receiveNews', {content: "Good to go!"});
+        // socket.emit('receiveNews', {content: "Good to go!"});
     });
 
     socket.on('getAll', () => {
